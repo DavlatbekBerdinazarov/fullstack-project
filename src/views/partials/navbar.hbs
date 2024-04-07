@@ -1,0 +1,59 @@
+<div class="border-bottom mb-4">
+  <header
+    class="d-flex align-items-center flex-wrap justify-content-center py-1 container"
+  >
+    <a
+      href="/"
+      class="d-flex gap-3 align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+    >
+      <div style="height:60px; width:60px; position:relative; top:4px">
+        <img
+          class="w-100"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzydXo9YYB2dFu_6O_b8SsY4u2ZTVOiG9OwT798zyGxQ&s"
+          alt=""
+        />
+      </div>
+      <span class="fs-4">Boom Shop</span>
+    </a>
+
+    <ul class="nav nav-pills">
+
+
+      {{#if product}}
+      <li class="nav-item fw-bold text-decoration-underline "><a
+          href="/products"
+          class="nav-link"
+        >Products</a></li>
+        {{else}}
+                  <li class="nav-item fw-bold "><a
+          href="/products"
+          class="nav-link"
+        >Products</a></li>
+        {{/if}}
+
+        {{#if add }}
+      <li class="nav-item fw-bold text-decoration-underline "><a href="/addproduct" class="nav-link">Add product</a></li>
+      {{else}}
+        <li class="nav-item fw-bold "><a href="/addproduct" class="nav-link">Add product</a></li>
+        {{/if}}
+
+    {{#if token}}
+          <li class="nav-item fw-bold bg-danger rounded"><a href="/logout" class="nav-link text-white">Logout</a></li>
+    {{else}}
+
+      {{#if login}}
+      <li class="nav-item fw-bold bg-primary rounded text-decoration-underline text-white "><a href="/login" class="nav-link text-white">Login</a></li>
+      {{else}}
+      <li class="nav-item fw-bold  bg-primary rounded"><a href="/login" class="nav-link text-white">Login</a></li>
+      {{/if}}
+
+      {{#if register}}
+      <li class="nav-item fw-bold  bg-success rounded text-decoration-underline text-white "><a href="/register" class="nav-link text-white">Register</a></li>
+      {{else}}
+      <li class="nav-item fw-bold  bg-success rounded"><a href="/register" class="nav-link text-white">Register</a></li>
+      {{/if}}
+
+    {{/if}}
+    </ul>
+  </header>
+</div>
