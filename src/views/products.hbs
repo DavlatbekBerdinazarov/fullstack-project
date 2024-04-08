@@ -18,7 +18,7 @@
                 <p class="card-text fw-bold fs-4 text-muted">{{ formData createdAt }}</p>
               </div>
               {{#if @root.token}}
-              <h5 class="mt-3 d-flex gap-2 align-items-sm-center "><div class="avatar">{{ getFullNameUser user.firstname user.lastname }}</div>: <div>{{user.firstname}} {{user.lastname}}</div> </h5>
+              <h5 class="mt-3 d-flex gap-2 align-items-sm-center "><div class="avatar">{{ getFullNameUser user.firstname user.lastname }}</div><div>{{user.firstname}} {{user.lastname}}</div> </h5>
               {{else}}
               <h5 class="mt-3"><div class="avatar">{{ getFullNameUser user.firstname user.lastname }}</div>: Guest</h5>
               {{/if}}

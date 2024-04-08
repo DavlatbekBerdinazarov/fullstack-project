@@ -5,7 +5,8 @@ const loginRedirect = require("../../middleware/addAuth");
 const userMiddleware = require("../../middleware/userMiddleware");
 
 router.get("/", async (req, res) => {
-  const products = await Product.find().lean();
+  const products = await Product.find().populate('user').lean();
+  console.log(products);
   res.render("index", {
     title: "Home",
     products: products.reverse(),
@@ -16,7 +17,6 @@ router.get("/", async (req, res) => {
 router.get("/products", async (req, res) => {
   const user = req.userId ? req.userId.toString() : null
   const myProducts = await Product.find({ user }).populate('user').lean();
-  console.log(myProducts);
   res.render("products", {
     title: "Products",
     product: true,
@@ -48,6 +48,67 @@ router.get("/product/:id", async (req, res) => {
   }
 });
 
+router.get("/edit-product/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    // Find the product by ID and populate the 'user' field
+    const product = await Product.findById(id).populate('user').lean();
+
+    res.render("edit-product", {
+      title: "Edit product",
+      product: product,
+    });
+
+  } catch (error) {
+    // Handle any errors that occur during the query
+    console.error("Error fetching product:", error);
+    res.status(500).render("error", { message: "Internal server error" });
+  }
+});
+
+router.post("/edit-product/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { imageUrl, title, description, price } = req.body;
+
+    // Update the product using findByIdAndUpdate
+    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+
+    // Save the updated product to the database
+    await updatedProduct.save();
+
+    // Redirect to the products page after successful update
+    res.redirect("/products");
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.post("/delete-product/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    // Find the product by ID 
+    const product = await Product.findById(id);
+
+    // If the product doesn't exist, handle it appropriately
+    if (!product) {
+      return res.status(404).render("error", { message: "Product not found" });
+    }
+    
+    // Delete the product
+    await Product.findByIdAndDelete(id);
+
+    // Redirect to the products page after successful deletion
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 router.get("/addproduct", loginRedirect, (req, res) => {
   res.render("addproduct", {
@@ -57,7 +118,6 @@ router.get("/addproduct", loginRedirect, (req, res) => {
 });
 
 router.post("/addproduct", userMiddleware, async (req, res) => {
-  console.log(req.body);
   try {
     // Extract form data from request body
     const { title, description, price, imageUrl } = req.body;
@@ -67,20 +127,16 @@ router.post("/addproduct", userMiddleware, async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    console.log(req.userId);
-
     // Create a new product instance using the Product model
-    const product = await Product({ ...req.body, user: req.userId });
+    const product = await Product.create({ ...req.body, user: req.userId });
 
-    // Save the product to the database
-    await product.save();
-
-    // Redirect to a success page or send a success response
-    res.status(201).json({ message: "Product added successfully", product });
+    // Redirect to the main products page
+    res.redirect("/products");
   } catch (error) {
     console.error("Error adding product:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 module.exports = router;
