@@ -25,6 +25,30 @@ router.get("/products", async (req, res) => {
   });
 });
 
+router.get("/product/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    // Find the product by ID and populate the 'user' field
+    const product = await Product.findById(id).populate('user').lean();
+
+    // If the product doesn't exist, handle it appropriately
+    if (!product) {
+      return res.status(404).render("error", { message: "Product not found" });
+    }
+
+    // Render the product detail page with the selected product
+    res.render("product", {
+      product: product,
+    });
+  } catch (error) {
+    // Handle any errors that occur during the query
+    console.error("Error fetching product:", error);
+    res.status(500).render("error", { message: "Internal server error" });
+  }
+});
+
+
 router.get("/addproduct", loginRedirect, (req, res) => {
   res.render("addproduct", {
     title: "Add product",

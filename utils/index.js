@@ -18,7 +18,6 @@ module.exports = {
     formData: function(data) {
         return moment(data).format('DD MMM, YYYY');
     }
-    
 };
 
 

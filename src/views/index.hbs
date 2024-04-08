@@ -14,10 +14,11 @@
               <p class="card-text h-25 overflow-y-scroll">{{description}}</p>
               <p class="card-text fw-bold fs-4">${{price}}.00</p>
               <div class="btn-group-lg" role="group" aria-label="Basic example">
-                <button
+                <a
+                  href="/product/{{ _id }}"
                   type="button"
                   class="btn btn-outline-primary"
-                >Details</button>
+                >Details</a>
                 {{#if @root.token}}
                   {{#ifequal user @root.userId}}
                     <button
