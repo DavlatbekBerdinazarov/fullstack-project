@@ -1,3 +1,26 @@
 .dark-theme {
     background-color: black;
 }
+
+.overflow-y-scroll::-webkit-scrollbar {
+    width: 6px; /* Adjust as needed */
+}
+
+.overflow-y-scroll::-webkit-scrollbar-thumb {
+    background-color: transparent; /* Hide scrollbar thumb */
+}
+
+.overflow-y-scroll:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Show scrollbar thumb on hover */
+}
+
+.avatar{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: dodgerblue;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
