@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = {
     ifequal: function(a, b, options) {
         if (a == b) {
@@ -11,6 +13,10 @@ module.exports = {
             return "AS"; // Or handle as needed
         }
         return firstname.charAt(0) + " " + lastname.charAt(0);
+    },
+
+    formData: function(data) {
+        return moment(data).format('DD MMM, YYYY');
     }
     
 };
