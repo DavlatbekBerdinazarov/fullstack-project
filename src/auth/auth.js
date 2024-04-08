@@ -3,13 +3,9 @@ const router = express.Router();
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const { genereteToken } = require("../../services/token");
+const authDirect = require("../../middleware/registerDirect")
 
-router.get("/login", (req, res) => {
-  if (req.cookies.token) {
-    res.redirect("/");
-    return;
-  }
-
+router.get("/login", authDirect, (req, res) => {
   res.render("login", {
     title: "Login",
     login: true,
@@ -52,11 +48,7 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.get("/register", (req, res) => {
-  if (req.cookies.token) {
-    res.redirect("/");
-    return;
-  }
+router.get("/register", authDirect, (req, res) => {
   res.render("register", {
     title: "Register",
     register: true,

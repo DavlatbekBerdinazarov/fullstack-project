@@ -1,11 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Products
-</body>
-</html>
+<h3 class="border-bottom">All Courses: {{products.length}}</h3>
+{{userId}}
+<div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+    {{#if products.length}}
+
+      {{#each products}}
+        <!-- Card 1 -->
+        <div class="col">
+          <div class="card h-100">
+            <img src="{{imageUrl}}" class="card-img-top" alt="..." />
+            <div class="card-body position-relative">
+              <h5 class="card-title">{{title}}</h5>
+              <p class="card-text h-25 overflow-y-scroll">{{description}}</p>
+              <p class="card-text fw-bold fs-4">${{price}}.00</p>
+              <div class="btn-group-lg" role="group" aria-label="Basic example">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                >Details</button>
+                {{#if @root.token}}
+                  {{#ifequal user @root.userId}}
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                    >Update</button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                    >Delate</button>
+                  {{/ifequal}}
+                {{/if}}
+              </div>
+              {{#if @root.token}}
+              <h5 class="mt-3">Author: {{user}}</h5>
+              {{else}}
+              <h5 class="mt-3">Author: Guest</h5>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <h4 class="text-muted">No products yet :(</h4>
+    {{/if}}
+
+    <!-- Repeat for other cards... -->
+  </div>
+</div>

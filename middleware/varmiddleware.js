@@ -7,7 +7,6 @@ module.exports = function (req, res, next) {
         const token = req.cookies.token;
 
         const isAuth = token ? true : false;
-        console.log(isAuth);
         // Use the token as needed
         // Example: Set a property in res.locals based on the token
         res.locals.token = isAuth;
